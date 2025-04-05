@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+#RecipeLLM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Prerequisites
 
-Currently, two official plugins are available:
+Before you begin, you'll need to install the following tools:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Node.js**:
+   - Visit [nodejs.org](https://nodejs.org)
+   - Download and install the LTS (Long Term Support) version
+   - Verify installation by running:
+     ```bash
+     node --version  # Should show v18 or higher
+     ```
 
-## Expanding the ESLint configuration
+2. **pnpm**:
+   - After installing Node.js, install pnpm globally by running:
+     ```bash
+     sudo npm install -g pnpm
+     ```
+   - Verify installation by running:
+     ```bash
+     pnpm --version  # Should show v9.6.0 or higher
+     ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd supermemo
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install all project dependencies:
+   ```bash
+   pnpm install
+   ```
+   This will install all required packages including:
+   - React and React DOM
+   - React Sortable Tree
+   - React Datepicker
+   - Fuse.js
+   - And all development dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. Start the development server:
+   ```bash
+   pnpm dev
+   ```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The application will be available at `http://localhost:5173`
+
+## Tech Stack
+
+- **Framework**: React 18
+- **Build Tool**: Vite 6
+- **Package Manager**: pnpm 9.6.0
+- **Styling**: TailwindCSS 3
+- **Key Dependencies**:
+  - `@nosferatu500/react-sortable-tree`: For tree-based UI components
+  - `react-datepicker`: For date selection functionality
+  - `fuse.js`: For fuzzy search capabilities
+
+## Available Scripts
+
+- `pnpm dev`: Start the development server
+- `pnpm build`: Build the project for production
+- `pnpm preview`: Preview the production build locally
+- `pnpm lint`: Run ESLint to check code quality
+
+## Development
+
+The project uses:
+- ESLint for code linting
+- TailwindCSS for styling
+- PostCSS for CSS processing
+- TypeScript for type safety
+
+## License
+
+[Add your license information here]

@@ -76,7 +76,7 @@ export default function Chat() {
   const handleNewChat = () => {
     const newConversation: Conversation = {
       id: Date.now().toString(),
-      title: 'New Chat',
+      title: `New Chat ${conversations.length + 1}`,
       lastMessage: '',
       timestamp: new Date().toLocaleString(),
       messages: [],

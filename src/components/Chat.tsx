@@ -213,9 +213,18 @@ export default function Chat() {
           {/* Empty Chat with Suggested Prompts */}
           <div className="flex-1 overflow-y-auto p-4 bg-white">
             <div className="max-w-3xl mx-auto">
-              <div className="text-center mb-8 mt-12">
-                <h2 className="text-2xl font-bold mb-2 text-slate-800">PlatePal</h2>
-                <p className="text-slate-500 text-lg">Your AI Recipe & Nutrition Assistant</p>
+              <div className="flex items-center justify-center mb-8 mt-12">
+                <div className="mr-4">
+                  <img 
+                    src="/images/Logo.jpeg" 
+                    alt="PlatePal Logo" 
+                    className="h-36"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold mb-1 text-slate-800">PlatePal</h2>
+                  <p className="text-slate-500 text-lg">Your AI Recipe & Nutrition Assistant</p>
+                </div>
               </div>
               
               <div className="mb-6">

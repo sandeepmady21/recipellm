@@ -1,12 +1,13 @@
 import { 
   PencilIcon, 
   MagnifyingGlassIcon,
-  EllipsisHorizontalIcon,
   CheckIcon,
-  XMarkIcon,
+  XMarkIcon
+} from '@heroicons/react/24/outline';
+import {
   StarIcon,
   TrashIcon
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/solid';
 import { useState, useEffect } from 'react';
 
 interface ChatHistoryProps {
@@ -37,7 +38,6 @@ export default function ChatHistory({
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
-  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   
   // Filter and sort conversations - starred at top, then the rest
   const filteredConversations = conversations
@@ -55,7 +55,12 @@ export default function ChatHistory({
     });
   
   const handleStartRename = (id: string, currentTitle: string) => {
-    setMenuOpenId(null);
+    setEditingId(id);
+    setEditTitle(currentTitle);
+  };
+
+  // Handle double-click to edit chat name
+  const handleDoubleClick = (id: string, currentTitle: string) => {
     setEditingId(id);
     setEditTitle(currentTitle);
   };
@@ -71,15 +76,15 @@ export default function ChatHistory({
     setEditingId(null);
   };
 
-  const handleDeleteChat = (id: string) => {
-    setMenuOpenId(null);
+  const handleDeleteChat = (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     if (onDeleteChat) {
       onDeleteChat(id);
     }
   };
 
-  const handleStarChat = (id: string) => {
-    setMenuOpenId(null);
+  const handleStarChat = (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     if (onStarChat) {
       const conversation = conversations.find(conv => conv.id === id);
       if (conversation) {
@@ -87,18 +92,6 @@ export default function ChatHistory({
       }
     }
   };
-
-  const toggleMenu = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setMenuOpenId(menuOpenId === id ? null : id);
-  };
-  
-  // Close menu if clicked outside
-  useEffect(() => {
-    const handleClickOutside = () => setMenuOpenId(null);
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
 
   // Helper function to highlight matching text
   const highlightText = (text: string, query: string): React.ReactNode => {
@@ -149,107 +142,76 @@ export default function ChatHistory({
         {filteredConversations.map((conversation) => {          
           return (
             <div key={conversation.id} className="relative">
-              <button
+              <div
                 onClick={() => editingId !== conversation.id && onSelectConversation(conversation.id)}
-                className={`w-full py-0.5 px-4 text-left transition-colors ${
+                onDoubleClick={() => handleDoubleClick(conversation.id, conversation.title)}
+                className={`w-full py-2 px-4 text-left transition-colors flex items-center justify-between ${
                   activeConversationId === conversation.id 
                     ? 'bg-gray-200 text-gray-900' 
                     : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
-                }`}
+                } cursor-pointer`}
                 style={{ backgroundColor: activeConversationId === conversation.id ? '#e5e7eb' : '#f9fafb' }}
               >
-                <div className="flex justify-between items-center">
-                  {editingId === conversation.id ? (
-                    <div className="flex items-center w-full pr-2">
-                      <input
-                        type="text"
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                        className="w-full text-sm bg-white text-slate-900 border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-500"
-                        autoFocus
-                        onClick={(e) => e.stopPropagation()}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            handleSaveRename(conversation.id);
-                          } else if (e.key === 'Escape') {
-                            handleCancelRename();
-                          }
+                {editingId === conversation.id ? (
+                  <div className="flex items-center w-full pr-2">
+                    <input
+                      type="text"
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      className="w-full text-sm bg-white text-slate-900 border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                      autoFocus
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleSaveRename(conversation.id);
+                        } else if (e.key === 'Escape') {
+                          handleCancelRename();
+                        }
+                      }}
+                    />
+                    <div className="flex ml-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSaveRename(conversation.id);
                         }}
-                      />
-                      <div className="flex ml-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSaveRename(conversation.id);
-                          }}
-                          className="p-1 text-green-600 hover:text-green-700"
-                        >
-                          <CheckIcon className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleCancelRename();
-                          }}
-                          className="p-1 text-red-600 hover:text-red-700"
-                        >
-                          <XMarkIcon className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <h3 className="text-sm font-medium truncate pr-2 flex items-center">
-                        {conversation.starred && (
-                          <StarIcon className="w-4 h-4 text-yellow-500 mr-1 flex-shrink-0" />
-                        )}
-                        {searchQuery ? highlightText(conversation.title, searchQuery) : conversation.title}
-                      </h3>
-                      <button 
-                        onClick={(e) => toggleMenu(conversation.id, e)}
-                        className="text-gray-500 hover:text-gray-700"
-                        style={{ background: 'none', backgroundColor: 'transparent' }}
+                        className="p-1 text-green-600 hover:text-green-700"
                       >
-                        <EllipsisHorizontalIcon className="w-5 h-5" />
+                        <CheckIcon className="w-4 h-4" />
                       </button>
-                    </>
-                  )}
-                </div>
-              </button>
-
-              {/* Context Menu */}
-              {menuOpenId === conversation.id && (
-                <div 
-                  className="absolute right-4 mt-0 bg-white shadow-lg rounded-md py-1 z-10 w-40"
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ backgroundColor: '#ffffff' }}
-                >
-                  <button 
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center"
-                    onClick={() => handleStarChat(conversation.id)}
-                    style={{ backgroundColor: '#ffffff', color: '#374151' }}
-                  >
-                    <StarIcon className={`w-4 h-4 mr-2 ${conversation.starred ? 'text-yellow-500' : ''}`} />
-                    {conversation.starred ? 'Unstar' : 'Star'}
-                  </button>
-                  <button 
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center"
-                    onClick={() => handleStartRename(conversation.id, conversation.title)}
-                    style={{ backgroundColor: '#ffffff', color: '#374151' }}
-                  >
-                    <PencilIcon className="w-4 h-4 mr-2" />
-                    Rename
-                  </button>
-                  <button 
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 text-red-600 flex items-center"
-                    onClick={() => handleDeleteChat(conversation.id)}
-                    style={{ backgroundColor: '#ffffff' }}
-                  >
-                    <TrashIcon className="w-4 h-4 mr-2" />
-                    Delete
-                  </button>
-                </div>
-              )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCancelRename();
+                        }}
+                        className="p-1 text-red-600 hover:text-red-700"
+                      >
+                        <XMarkIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-sm font-medium truncate flex-1">
+                      {searchQuery ? highlightText(conversation.title, searchQuery) : conversation.title}
+                    </h3>
+                    <div className="flex items-center ml-2">
+                      <button 
+                        onClick={(e) => handleStarChat(conversation.id, e)}
+                        className={`p-1 rounded ${conversation.starred ? 'text-yellow-400' : 'text-yellow-300'} hover:text-yellow-500 transition-colors mr-1`}
+                      >
+                        <StarIcon className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={(e) => handleDeleteChat(conversation.id, e)}
+                        className="p-1 rounded text-red-500 hover:text-red-600 transition-colors mr-1"
+                      >
+                        <TrashIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           );
         })}

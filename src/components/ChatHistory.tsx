@@ -2,7 +2,11 @@ import {
   PencilIcon, 
   MagnifyingGlassIcon,
   CheckIcon,
-  XMarkIcon
+  XMarkIcon,
+  PlusCircleIcon,
+  ChatBubbleOvalLeftIcon,
+  PlusIcon,
+  StarIcon as StarIconOutline
 } from '@heroicons/react/24/outline';
 import {
   StarIcon,
@@ -130,9 +134,12 @@ export default function ChatHistory({
           </div>
           <button 
             onClick={onNewChat}
-            className="flex items-center justify-center p-1.5 rounded-full bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
+            className="flex items-center justify-center p-1.5 rounded-full bg-gradient-to-r from-slate-600 to-slate-700 text-white hover:opacity-90 border-none flex-shrink-0 transition-all shadow-sm"
           >
-            <PencilIcon className="w-5 h-5" />
+            <div className="relative">
+              <ChatBubbleOvalLeftIcon className="w-5 h-5" />
+              <PlusIcon className="w-2.5 h-2.5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            </div>
           </button>
         </div>
       </div>
@@ -198,9 +205,13 @@ export default function ChatHistory({
                     <div className="flex items-center ml-2">
                       <button 
                         onClick={(e) => handleStarChat(conversation.id, e)}
-                        className={`p-1 rounded ${conversation.starred ? 'text-yellow-400' : 'text-yellow-300'} hover:text-yellow-500 transition-colors mr-1`}
+                        className={`p-1 rounded ${conversation.starred ? 'text-yellow-400' : 'text-gray-400'} hover:text-yellow-500 transition-colors mr-1`}
                       >
-                        <StarIcon className="w-4 h-4" />
+                        {conversation.starred ? (
+                          <StarIcon className="w-4 h-4" />
+                        ) : (
+                          <StarIconOutline className="w-4 h-4" />
+                        )}
                       </button>
                       <button 
                         onClick={(e) => handleDeleteChat(conversation.id, e)}

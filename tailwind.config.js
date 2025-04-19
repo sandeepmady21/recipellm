@@ -90,8 +90,21 @@ export default {
         },
         white: '#ffffff',
         black: '#000000',
+        greenTheme: {
+          cream: '#FAF3E0',
+          deepGreen: '#2E5339',
+          mutedOlive: '#556B5D',
+          softGreen: '#D7E8D0',
+          darkForest: '#1E392A',
+          lightCream: '#FFF9F2',
+          hoverGreen: '#BFD8B8',
+        }
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addVariant }) {
+      addVariant('theme-green', '.theme-green &');
+    }
+  ]
 } 

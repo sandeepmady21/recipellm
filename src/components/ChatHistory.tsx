@@ -118,9 +118,9 @@ export default function ChatHistory({
   };
 
   return (
-    <div className="w-64 bg-slate-50 flex flex-col h-full border-r border-slate-200">
+    <div className="w-64 flex flex-col h-full border-r border-slate-200 theme-green:border-greenTheme-softGreen theme-green:bg-greenTheme-cream">
       {/* Search */}
-      <div className="p-2 border-b border-slate-200">
+      <div className="p-2 border-b border-slate-200 theme-green:border-greenTheme-softGreen">
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <input
@@ -128,13 +128,13 @@ export default function ChatHistory({
               placeholder="Search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white text-slate-900 border border-slate-200 rounded-md pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-slate-400 placeholder-slate-500"
+              className="w-full border border-slate-200 rounded-full pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-slate-400 placeholder-slate-500 theme-green:bg-greenTheme-lightCream theme-green:text-greenTheme-deepGreen theme-green:border-greenTheme-softGreen theme-green:placeholder-greenTheme-mutedOlive"
             />
-            <MagnifyingGlassIcon className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
+            <MagnifyingGlassIcon className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 theme-green:text-greenTheme-deepGreen" />
           </div>
           <button 
             onClick={onNewChat}
-            className="flex items-center justify-center p-1.5 rounded-full bg-gradient-to-r from-slate-600 to-slate-700 text-white hover:opacity-90 border-none flex-shrink-0 transition-all shadow-sm"
+            className="theme-exempt flex items-center justify-center p-1.5 rounded-full bg-gradient-to-r from-slate-600 to-slate-700 text-white hover:opacity-90 border-none flex-shrink-0 transition-all shadow-sm theme-green:from-greenTheme-deepGreen theme-green:to-greenTheme-darkForest"
           >
             <div className="relative">
               <ChatBubbleOvalLeftIcon className="w-5 h-5" />
@@ -145,7 +145,7 @@ export default function ChatHistory({
       </div>
       
       {/* Chat List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto theme-green:bg-greenTheme-cream">
         {filteredConversations.map((conversation) => {          
           return (
             <div key={conversation.id} className="relative">
@@ -154,10 +154,9 @@ export default function ChatHistory({
                 onDoubleClick={() => handleDoubleClick(conversation.id, conversation.title)}
                 className={`w-full py-2 px-4 text-left transition-colors flex items-center justify-between ${
                   activeConversationId === conversation.id 
-                    ? 'bg-gray-200 text-gray-900' 
-                    : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
-                } cursor-pointer`}
-                style={{ backgroundColor: activeConversationId === conversation.id ? '#e5e7eb' : '#f9fafb' }}
+                    ? 'bg-gray-200 theme-green:bg-greenTheme-softGreen border-l-4 theme-green:border-l-greenTheme-deepGreen' 
+                    : 'hover:bg-gray-100 theme-green:hover:bg-greenTheme-lightCream border-l-4 border-transparent'
+                } cursor-pointer text-slate-900 theme-green:text-greenTheme-deepGreen`}
               >
                 {editingId === conversation.id ? (
                   <div className="flex items-center w-full pr-2">
@@ -165,7 +164,7 @@ export default function ChatHistory({
                       type="text"
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
-                      className="w-full text-sm bg-white text-slate-900 border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                      className="w-full text-sm bg-white text-slate-900 border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-slate-500 theme-green:bg-greenTheme-lightCream theme-green:text-greenTheme-deepGreen theme-green:border-greenTheme-softGreen"
                       autoFocus
                       onClick={(e) => e.stopPropagation()}
                       onKeyDown={(e) => {
@@ -182,7 +181,7 @@ export default function ChatHistory({
                           e.stopPropagation();
                           handleSaveRename(conversation.id);
                         }}
-                        className="p-1 text-green-600 hover:text-green-700"
+                        className="theme-exempt p-1 text-green-600 hover:text-green-700 theme-green:text-greenTheme-deepGreen theme-green:hover:text-greenTheme-darkForest"
                       >
                         <CheckIcon className="w-4 h-4" />
                       </button>
@@ -191,7 +190,7 @@ export default function ChatHistory({
                           e.stopPropagation();
                           handleCancelRename();
                         }}
-                        className="p-1 text-red-600 hover:text-red-700"
+                        className="theme-exempt p-1 text-red-600 hover:text-red-700"
                       >
                         <XMarkIcon className="w-4 h-4" />
                       </button>
@@ -205,7 +204,7 @@ export default function ChatHistory({
                     <div className="flex items-center ml-2">
                       <button 
                         onClick={(e) => handleStarChat(conversation.id, e)}
-                        className={`p-1 rounded ${conversation.starred ? 'text-yellow-400' : 'text-gray-400'} hover:text-yellow-500 transition-colors mr-1`}
+                        className={`theme-exempt p-1 rounded ${conversation.starred ? 'text-yellow-400' : 'text-gray-400'} hover:text-yellow-500 transition-colors mr-1`}
                       >
                         {conversation.starred ? (
                           <StarIcon className="w-4 h-4" />
@@ -215,7 +214,7 @@ export default function ChatHistory({
                       </button>
                       <button 
                         onClick={(e) => handleDeleteChat(conversation.id, e)}
-                        className="p-1 rounded text-red-500 hover:text-red-600 transition-colors mr-1"
+                        className="theme-exempt p-1 rounded text-red-500 hover:text-red-600 transition-colors mr-1"
                       >
                         <TrashIcon className="w-4 h-4" />
                       </button>

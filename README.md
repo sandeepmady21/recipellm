@@ -1,11 +1,85 @@
 # RecipeLLM - AI Recipe & Nutrition Assistant
 
-A full-stack application that connects to MongoDB and uses an LLM agent to answer natural language queries about recipes and nutrition.
+
+## Frontend Installation and Setup
+
+### Installing Node.js (if not installed)
+
+Before setting up the frontend, you need to have Node.js installed:
+
+```bash
+# macOS (using Homebrew)
+brew install node
+
+# Windows (using Chocolatey)
+choco install nodejs
+
+# Linux (Ubuntu/Debian)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Check installation
+node -v
+```
+
+You can also download and install Node.js directly from the [official website](https://nodejs.org/).
+
+### Installing pnpm
+
+You'll need to install pnpm to manage dependencies:
+
+```bash
+# Install pnpm globally
+npm install -g pnpm
+
+# Verify installation
+pnpm --version
+```
+
+### Running the Frontend
+
+Follow these steps to install and run the frontend application:
+
+```bash
+# Clone the repository (if you haven't already)
+git clone <repository-url>
+cd recipellm
+
+# Install dependencies
+pnpm install
+
+# Start the development server
+pnpm dev
+```
+
+The frontend will run on http://localhost:5173
+
+Once running, you can:
+1. Open your browser to http://localhost:5173
+2. Use the chat interface to query your recipe database
+3. Try prompts like "Show me all recipes with chicken" or "What's the nutritional value of avocado?"
+
+### Version Control
+
+After making changes to the code, you can commit and push your changes:
+
+```bash
+# Add all changes to git
+git add .
+
+# Commit your changes
+git commit -m "Your commit message"
+
+# Push to the remote repository
+git push
+```
+
+Note: Make sure the backend server is also running for the application to work properly.
 
 ## Prerequisites
 
 1. MongoDB installed and running on your computer
-2. Node.js and npm/pnpm for the frontend
+2. Node.js and pnpm for the frontend
 3. Python 3.8+ for the backend
 
 ## Project Setup

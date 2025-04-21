@@ -1,54 +1,77 @@
-# React + TypeScript + Vite
+# RecipeLLM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A recipe application that uses an LLM as a translator between the user and a recipe database.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Natural language interface for querying recipes
+- Ask for recipes by ingredients, dietary restrictions, or meal types
+- Developer mode to see the underlying LLM processing
+- Flask backend that simulates an LLM translator for database queries
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+recipellm/
+├── app.py              # Flask backend
+├── requirements.txt    # Python dependencies
+├── src/                # React frontend
+│   ├── components/     # React components
+│   ├── services/       # API services
+│   └── ...
+└── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Backend Setup
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. Create a Python virtual environment (recommended):
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+2. Install backend dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Run the Flask backend:
+   ```
+   python app.py
+   ```
+   The backend will run on http://localhost:5000
+
+### Frontend Setup
+
+1. Install frontend dependencies:
+   ```
+   pnpm install
+   ```
+
+2. Run the frontend development server:
+   ```
+   pnpm run dev
+   ```
+   The frontend will run on http://localhost:5174 (or another port if 5174 is in use)
+
+## Usage
+
+1. Start both the frontend and backend servers
+2. Open your browser to http://localhost:5174
+3. Try queries like:
+   - "Show me all recipes"
+   - "Find recipes with chicken"
+   - "What can I make with pasta?"
+
+## Development
+
+- Toggle developer mode with the command line icon in the top-right corner
+- The developer mode shows the raw LLM response and SQL query
+- Edit `app.py` to customize the backend behavior
+- Edit React components in `src/components/` to modify the frontend
+
+## License
+
+MIT
